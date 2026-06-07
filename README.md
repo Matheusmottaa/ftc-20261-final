@@ -7,7 +7,7 @@ Trabalho final de **Fundamentos Teóricos da Computação (FTC)**. Implementa, e
 | Nome completo | Matrícula |
 |---------------|-----------|
 | Matheus Felipe de Almeida Mota   | 72301031|
-| _preencher_   | _preencher_ |
+| Pedro Simão do Carmo Diniz  | 72301376 |
 | _preencher_   | _preencher_ |
 
 ## Estrutura do repositório
@@ -28,6 +28,21 @@ Trabalho final de **Fundamentos Teóricos da Computação (FTC)**. Implementa, e
 │   ├── Program.cs                   # Camada de aplicação (entrada/saída)
 │   └── Parte1.csproj
 │
+├── Parte2/                          # Autômato de Pilha por pilha vazia (L2: aⁿbⁿ; L3: palíndromos)
+│   ├── Models/
+│   │   ├── AutomatoPilha.cs                   # A 7-tupla do AP
+│   │   ├── TransicaoPilha.cs                  # Destino de uma transição (estado + empilhar)
+│   │   ├── ConfiguracaoInstantanea.cs         # Snapshot (estado, entrada, pilha)
+│   │   └── ResultadoSimulacaoPilha.cs         # Resultado + caminho percorrido
+│   ├── Services/
+│   │   ├── ApFactory.cs                        # Constrói os APs de L2 e L3
+│   │   └── SimuladorPilha.cs                   # Simulação não determinística (DFS)
+│   ├── Dados/
+│   │   ├── entradas_ap.txt                     # Casos de L2
+│   │   └── entradas_l3.txt                     # Casos de L3
+│   ├── Program.cs
+│   └── Parte2.csproj
+|
 ├── docs/                            # Relatório técnico
 │   └── relatorio.pdf                # Relatório compilado (TODO A ser feito)
 │
@@ -66,6 +81,9 @@ Cada projeto lê seus casos de teste de arquivos na respectiva pasta `Dados/`:
 
 ### Parte 1 — AFD
 Reconhece `L1 = { w ∈ {a,b}* | w termina com "ab" }`. Modela a 5-tupla `(Q, Σ, δ, q0, F)`, com `δ` como `Dictionary<(string,char), string>`. Exibe o diagrama de transições, simula cada cadeia mostrando o rastro de estados e ainda carrega qualquer AFD a partir de `afd.json`.
+
+### Parte 2 - AP
+Reconhece L2 = { aⁿbⁿ | n ≥ 1 } por pilha vazia, com a pilha implementada como Stack<char> e λ-movimentos ('\0'). Exibe a configuração instantânea (estado, entrada restante, conteúdo da pilha) a cada passo. O desafio adiciona um AP não determinístico para L3 = palíndromos sobre {a,b}.
 
 ## Vídeo de defesa
 
