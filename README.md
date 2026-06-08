@@ -8,7 +8,7 @@ Trabalho final de **Fundamentos Teóricos da Computação (FTC)**. Implementa, e
 |---------------|-----------|
 | Matheus Felipe de Almeida Mota   | 72301031|
 | Pedro Simão do Carmo Diniz  | 72301376 |
-| _preencher_   | _preencher_ |
+| Yuri Leal de Sousa  | 72301341 |
 
 ## Estrutura do repositório
 
@@ -69,6 +69,8 @@ A partir da raiz do repositório:
 # Parte 1 — Autômato Finito Determinístico (L1)
 dotnet run --project Parte1
 
+Parte 3 — Máquina de Turing (L4 e desafio f(n) = n + 1)
+dotnet run --project Parte3
 ```
 
 Cada projeto lê seus casos de teste de arquivos na respectiva pasta `Dados/`:
@@ -84,6 +86,9 @@ Reconhece `L1 = { w ∈ {a,b}* | w termina com "ab" }`. Modela a 5-tupla `(Q, Σ
 
 ### Parte 2 - AP
 Reconhece L2 = { aⁿbⁿ | n ≥ 1 } por pilha vazia, com a pilha implementada como Stack<char> e λ-movimentos ('\0'). Exibe a configuração instantânea (estado, entrada restante, conteúdo da pilha) a cada passo. O desafio adiciona um AP não determinístico para L3 = palíndromos sobre {a,b}.
+
+### Parte 3 — Máquina de Turing
+Reconhece L4 = { aⁿbⁿcⁿ | n ≥ 1 } usando uma fita dinâmica (Dictionary<int,char>) e a estratégia de marcação X/Y/Z. Exibe estado, fita completa (com o cabeçote entre colchetes) e posição a cada passo, com contador e limite de passos. O desafio implementa uma segunda MT que computa f(n) = n + 1 em unário.
 
 ## Vídeo de defesa
 
