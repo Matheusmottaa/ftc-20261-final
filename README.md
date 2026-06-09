@@ -87,8 +87,11 @@ dotnet run --project Parte1
 # Parte 2 — Autômato de Pilha (L2 e desafio L3)
 dotnet run --project Parte2
 
-Parte 3 — Máquina de Turing (L4 e desafio f(n) = n + 1)
+# Parte 3 — Máquina de Turing (L4 e desafio f(n) = n + 1)
 dotnet run --project Parte3
+
+# Parte 3 com limite de passos customizado (padrão: 1000)
+dotnet run --project Parte3 -- 5000
 ```
 
 Cada projeto lê seus casos de teste de arquivos na respectiva pasta `Dados/`:
@@ -96,6 +99,9 @@ Cada projeto lê seus casos de teste de arquivos na respectiva pasta `Dados/`:
 | Parte | Arquivos de entrada |
 |-------|---------------------|
 | Parte1 | `entradas.txt`, `afd.json` (AFD genérico via JSON) |
+| Parte2 | `entradas_ap.txt` (L2), `entradas_l3.txt` (L3) |
+| Parte3 | `entradas_mt.txt` (L4), `entradas_incremento.txt` (f(n)=n+1) |
+
 
 ## Resumo de cada parte
 
