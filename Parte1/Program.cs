@@ -25,10 +25,21 @@ public static class Program
         Console.WriteLine("# Desafio: carregando AFD generico de afd.json");
         Console.WriteLine("##############################################\n");
 
-        AutomatoFinitoDeterministico afdJson = AfdJsonLoader.CarregarDeArquivo(caminhoJson);
-        afdJson.ExibirDiagrama();
-        Console.WriteLine("\n--- Simulacao com o AFD carregado do JSON ---\n");
-        SimularArquivo(afdJson, caminhoEntradas);
+        try
+        {
+            AutomatoFinitoDeterministico afdJson = AfdJsonLoader.CarregarDeArquivo(caminhoJson);
+            afdJson.ExibirDiagrama();
+            Console.WriteLine("\n--- Simulacao com o AFD carregado do JSON ---\n");
+            SimularArquivo(afdJson, caminhoEntradas);
+        }
+        catch (Exception excecao) when (
+            excecao is InvalidDataException
+            or FileNotFoundException
+            or ArgumentException
+            or System.Text.Json.JsonException)
+        {
+            Console.WriteLine($"Configuracao invalida em afd.json: {excecao.Message}");
+        }
     }
 
     private static void SimularArquivo(AutomatoFinitoDeterministico afd, string caminhoEntradas)
