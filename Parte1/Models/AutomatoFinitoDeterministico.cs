@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Parte1.Models;
 
 public sealed class AutomatoFinitoDeterministico
@@ -75,52 +77,74 @@ public sealed class AutomatoFinitoDeterministico
         Console.WriteLine();
 
         List<char> alfabetoOrdenado = Alfabeto.OrderBy(c => c).ToList();
-        const int largura = 12;
+        int colunas = alfabetoOrdenado.Count + 1;
 
-        Console.Write("delta".PadRight(largura));
-        foreach (char simbolo in alfabetoOrdenado)
+        string[] cabecalho = new string[colunas];
+        cabecalho[0] = "delta";
+        for (int i = 0; i < alfabetoOrdenado.Count; i++)
         {
-            Console.Write($"| {simbolo}".PadRight(largura));
+            cabecalho[i + 1] = alfabetoOrdenado[i].ToString();
         }
-        Console.WriteLine();
-        Console.WriteLine(new string('-', largura * (alfabetoOrdenado.Count + 1)));
 
+        List<string[]> linhas = new List<string[]>();
         foreach (string estado in Estados.OrderBy(e => e))
         {
-            string marcador;
-            if (estado == EstadoInicial)
-            {
-                marcador = "->";
-            }
-            else
-            {
-                marcador = "  ";
-            }
+            string marcador = estado == EstadoInicial ? "->" : "  ";
+            string aceitacao = EstadosAceitacao.Contains(estado) ? "*" : " ";
 
-            string aceitacao;
-            if (EstadosAceitacao.Contains(estado))
+            string[] celulas = new string[colunas];
+            celulas[0] = $"{marcador}{aceitacao}{estado}";
+            for (int i = 0; i < alfabetoOrdenado.Count; i++)
             {
-                aceitacao = "*";
-            }
-            else
-            {
-                aceitacao = " ";
-            }
-
-            Console.Write($"{marcador}{aceitacao}{estado}".PadRight(largura));
-
-            foreach (char simbolo in alfabetoOrdenado)
-            {
-                string destino;
-                if (!Transicao.TryGetValue((estado, simbolo), out destino))
+                if (!Transicao.TryGetValue((estado, alfabetoOrdenado[i]), out string destino))
                 {
                     destino = "-";
                 }
-                Console.Write($"| {destino}".PadRight(largura));
+                celulas[i + 1] = destino;
             }
-            Console.WriteLine();
+            linhas.Add(celulas);
         }
+
+        int[] larguras = new int[colunas];
+        for (int c = 0; c < colunas; c++)
+        {
+            larguras[c] = cabecalho[c].Length;
+            foreach (string[] celulas in linhas)
+            {
+                larguras[c] = Math.Max(larguras[c], celulas[c].Length);
+            }
+        }
+
+        string borda = MontarBorda(larguras);
+        Console.WriteLine(borda);
+        Console.WriteLine(MontarLinha(cabecalho, larguras));
+        Console.WriteLine(borda);
+        foreach (string[] celulas in linhas)
+        {
+            Console.WriteLine(MontarLinha(celulas, larguras));
+        }
+        Console.WriteLine(borda);
         Console.WriteLine("(-> estado inicial, * estado de aceitacao)");
+    }
+
+    private static string MontarBorda(IReadOnlyList<int> larguras)
+    {
+        StringBuilder construtor = new StringBuilder("+");
+        foreach (int largura in larguras)
+        {
+            construtor.Append(new string('-', largura + 2)).Append('+');
+        }
+        return construtor.ToString();
+    }
+
+    private static string MontarLinha(IReadOnlyList<string> celulas, IReadOnlyList<int> larguras)
+    {
+        StringBuilder construtor = new StringBuilder("|");
+        for (int c = 0; c < celulas.Count; c++)
+        {
+            construtor.Append(' ').Append(celulas[c].PadRight(larguras[c])).Append(" |");
+        }
+        return construtor.ToString();
     }
 
     private void ValidarConsistencia()

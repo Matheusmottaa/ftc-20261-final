@@ -1,4 +1,5 @@
-﻿using Parte1.Models;
+﻿using System.Text;
+using Parte1.Models;
 using Parte1.Services;
 
 namespace Parte1;
@@ -51,44 +52,102 @@ public static class Program
         }
 
         string[] linhas = File.ReadAllLines(caminhoEntradas);
+        List<ResultadoSimulacao> resultados = new List<ResultadoSimulacao>();
         foreach (string linha in linhas)
         {
-            ResultadoSimulacao resultado = afd.Simular(linha);
-            ExibirResultado(resultado);
+            resultados.Add(afd.Simular(linha));
         }
+
+        ExibirTabelaResultados(resultados);
+        ExibirSumario(resultados);
     }
 
-    private static void ExibirResultado(ResultadoSimulacao resultado)
+    private static void ExibirTabelaResultados(IReadOnlyList<ResultadoSimulacao> resultados)
     {
-        string representacaoCadeia;
-        if (resultado.Cadeia.Length == 0)
+        const string colCadeia = "CADEIA";
+        const string colStatus = "STATUS";
+        const string colRastro = "RASTRO";
+        const string colMotivo = "MOTIVO";
+
+        bool temMotivo = resultados.Any(r => !string.IsNullOrEmpty(r.MotivoRejeicao));
+
+        int larguraCadeia = colCadeia.Length;
+        int larguraStatus = colStatus.Length;
+        int larguraRastro = colRastro.Length;
+        int larguraMotivo = colMotivo.Length;
+
+        foreach (ResultadoSimulacao resultado in resultados)
         {
-            representacaoCadeia = "e (cadeia vazia)";
+            larguraCadeia = Math.Max(larguraCadeia, FormatarCadeia(resultado.Cadeia).Length);
+            larguraStatus = Math.Max(larguraStatus, FormatarStatus(resultado.Aceita).Length);
+            larguraRastro = Math.Max(larguraRastro, string.Join(" -> ", resultado.RastroEstados).Length);
+            larguraMotivo = Math.Max(larguraMotivo, (resultado.MotivoRejeicao ?? string.Empty).Length);
+        }
+
+        string borda = temMotivo
+            ? MontarBorda(larguraCadeia, larguraStatus, larguraRastro, larguraMotivo)
+            : MontarBorda(larguraCadeia, larguraStatus, larguraRastro);
+
+        Console.WriteLine(borda);
+        if (temMotivo)
+        {
+            Console.WriteLine($"| {colCadeia.PadRight(larguraCadeia)} | {colStatus.PadRight(larguraStatus)} | {colRastro.PadRight(larguraRastro)} | {colMotivo.PadRight(larguraMotivo)} |");
         }
         else
         {
-            representacaoCadeia = resultado.Cadeia;
+            Console.WriteLine($"| {colCadeia.PadRight(larguraCadeia)} | {colStatus.PadRight(larguraStatus)} | {colRastro.PadRight(larguraRastro)} |");
+        }
+        Console.WriteLine(borda);
+
+        foreach (ResultadoSimulacao resultado in resultados)
+        {
+            string cadeia = FormatarCadeia(resultado.Cadeia);
+            string status = FormatarStatus(resultado.Aceita);
+            string rastro = string.Join(" -> ", resultado.RastroEstados);
+
+            Console.Write($"| {cadeia.PadRight(larguraCadeia)} | ");
+
+            ConsoleColor corOriginal = Console.ForegroundColor;
+            Console.ForegroundColor = resultado.Aceita ? ConsoleColor.Green : ConsoleColor.Red;
+            Console.Write(status.PadRight(larguraStatus));
+            Console.ForegroundColor = corOriginal;
+
+            Console.Write($" | {rastro.PadRight(larguraRastro)} |");
+            if (temMotivo)
+            {
+                Console.Write($" {(resultado.MotivoRejeicao ?? string.Empty).PadRight(larguraMotivo)} |");
+            }
+            Console.WriteLine();
         }
 
-        string status;
-        if (resultado.Aceita)
-        {
-            status = "ACEITA";
-        }
-        else
-        {
-            status = "REJEITA";
-        }
+        Console.WriteLine(borda);
+    }
 
-        string rastro = string.Join(" -> ", resultado.RastroEstados);
+    private static void ExibirSumario(IReadOnlyList<ResultadoSimulacao> resultados)
+    {
+        int total = resultados.Count;
+        int aceitas = resultados.Count(r => r.Aceita);
+        int rejeitadas = total - aceitas;
+        Console.WriteLine($"Resumo: {total} cadeia(s) | {aceitas} aceita(s) | {rejeitadas} rejeitada(s)");
+    }
 
-        Console.WriteLine($"Cadeia : {representacaoCadeia}");
-        Console.WriteLine($"Rastro : {rastro}");
-        Console.WriteLine($"Status : {status}");
-        if (!resultado.Aceita && resultado.MotivoRejeicao != null)
+    private static string FormatarCadeia(string cadeia)
+    {
+        return cadeia.Length == 0 ? "e (vazia)" : cadeia;
+    }
+
+    private static string FormatarStatus(bool aceita)
+    {
+        return aceita ? "ACEITA" : "REJEITA";
+    }
+
+    private static string MontarBorda(params int[] larguras)
+    {
+        StringBuilder construtor = new StringBuilder("+");
+        foreach (int largura in larguras)
         {
-            Console.WriteLine($"Motivo : {resultado.MotivoRejeicao}");
+            construtor.Append(new string('-', largura + 2)).Append('+');
         }
-        Console.WriteLine();
+        return construtor.ToString();
     }
 }
