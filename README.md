@@ -74,7 +74,7 @@ Cada parte segue uma separação em camadas:
 
 ## Pré-requisitos
 
-- Desenvolvido com .NET 9
+- **.NET 6 ou superior** (SDK). Os projetos miram `net6.0` e usam `<RollForward>Major</RollForward>`, então compilam com qualquer SDK ≥ 6 e executam em qualquer runtime instalado (6, 7, 8, 9, 10...), mesmo que o runtime exato do alvo não esteja presente.
 
 ## Como compilar e executar
 
