@@ -106,13 +106,15 @@ Cada projeto lê seus casos de teste de arquivos na respectiva pasta `Dados/`:
 ## Resumo de cada parte
 
 ### Parte 1 — AFD
-Reconhece `L1 = { w ∈ {a,b}* | w termina com "ab" }`. Modela a 5-tupla `(Q, Σ, δ, q0, F)`, com `δ` como `Dictionary<(string,char), string>`. Exibe o diagrama de transições, simula cada cadeia mostrando o rastro de estados e ainda carrega qualquer AFD a partir de `afd.json`.
+Reconhece `L1 = { w ∈ {a,b}* | w termina com "ab" }`. Modela a 5-tupla `(Q, Σ, δ, q0, F)`, com `δ` como `Dictionary<(string,char), string>`. Exibe o diagrama de transições (tabela `δ` com molduras), simula cada cadeia em uma **tabela-resumo** alinhada (colunas `CADEIA`, `STATUS` — `ACEITA`/`REJEITA` colorido — e `RASTRO`) com uma linha final de totais, e ainda carrega qualquer AFD a partir de `afd.json`.
+
+> Observação: a cadeia `aab` é **ACEITA** (termina com o sufixo `ab`), conforme a definição formal de `L1`. A tabela de casos de teste do enunciado sugere `REJEITA` para `aab`, o que é inconsistente com a própria definição; a implementação segue a definição. Detalhes na "Nota sobre `aab`" do relatório.
 
 ### Parte 2 - AP
-Reconhece `L2 = { aⁿbⁿ | n ≥ 1 }` **por pilha vazia**, com a pilha implementada como `Stack<char>` e λ-movimentos (`'\0'`). Exibe a configuração instantânea (estado, entrada restante, conteúdo da pilha) a cada passo. O desafio adiciona um AP não determinístico para `L3 = palíndromos sobre {a,b}`.
+Reconhece `L2 = { aⁿbⁿ | n ≥ 1 }` **por pilha vazia**, com a pilha implementada como `Stack<char>` e λ-movimentos (`'\0'`). Para cada cadeia exibe o status (`ACEITA`/`REJEITA` colorido) e a sequência de configurações instantâneas em uma **tabela com molduras** (colunas `PASSO`, `ESTADO`, `ENTRADA`, `PILHA (topo->base)` e `TRANSICAO`), encerrando cada linguagem com uma linha de totais. O desafio adiciona um AP não determinístico para `L3 = palíndromos sobre {a,b}`.
 
 ### Parte 3 — Máquina de Turing
-Reconhece `L4 = { aⁿbⁿcⁿ | n ≥ 1 }` usando uma fita dinâmica (`Dictionary<int,char>`) e a estratégia de marcação `X/Y/Z`. Exibe estado, fita completa (com o cabeçote entre colchetes) e posição a cada passo, com contador e limite de passos. O desafio implementa uma segunda MT que **computa** `f(n) = n + 1` em unário.
+Reconhece `L4 = { aⁿbⁿcⁿ | n ≥ 1 }` usando uma fita dinâmica (`Dictionary<int,char>`) e a estratégia de marcação `X/Y/Z`. Exibe a execução passo a passo em uma **tabela com molduras** (colunas `PASSO`, `ESTADO`, `CABECOTE` e `FITA` — esta com o símbolo sob o cabeçote entre colchetes), com contador e limite de passos, status colorido (`ACEITA`/`REJEITA`/`LIMITE`) e uma linha de totais ao final. O desafio implementa uma segunda MT que **computa** `f(n) = n + 1` em unário.
 
 ## Vídeo de defesa
 
