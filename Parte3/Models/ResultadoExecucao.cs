@@ -18,12 +18,19 @@ public sealed class ResultadoExecucao
     public StatusExecucao Status { get; }
     public int Passos { get; }
     public string FitaFinal { get; }
+    public IReadOnlyList<PassoExecucao> Historico { get; }
 
-    public ResultadoExecucao(string entrada, StatusExecucao status, int passos, string fitaFinal)
+    public ResultadoExecucao(
+        string entrada,
+        StatusExecucao status,
+        int passos,
+        string fitaFinal,
+        IReadOnlyList<PassoExecucao> historico)
     {
         Entrada = entrada;
         Status = status;
         Passos = passos;
         FitaFinal = fitaFinal;
+        Historico = historico;
     }
 }
