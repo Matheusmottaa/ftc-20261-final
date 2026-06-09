@@ -10,22 +10,45 @@ namespace Parte3;
 /// </summary>
 public static class Program
 {
-    public static void Main()
+    private const int LimitePassosPadrao = 1_000;
+
+    public static void Main(string[] args)
     {
+        int limitePassos = LerLimitePassos(args);
         string pastaDados = Path.Combine(AppContext.BaseDirectory, "Dados");
 
         Console.WriteLine("##############################################");
         Console.WriteLine("# Parte 3 - MT para L4 = { a^n b^n c^n | n >= 1 }");
-        Console.WriteLine("##############################################\n");
-        ReconhecerL4(Path.Combine(pastaDados, "entradas_mt.txt"));
+        Console.WriteLine("##############################################");
+        Console.WriteLine($"(limite de passos: {limitePassos})\n");
+        ReconhecerL4(Path.Combine(pastaDados, "entradas_mt.txt"), limitePassos);
 
         Console.WriteLine("\n##############################################");
         Console.WriteLine("# Desafio: MT que computa f(n) = n + 1 (unario)");
         Console.WriteLine("##############################################\n");
-        ComputarIncremento(Path.Combine(pastaDados, "entradas_incremento.txt"));
+        ComputarIncremento(Path.Combine(pastaDados, "entradas_incremento.txt"), limitePassos);
     }
 
-    private static void ReconhecerL4(string caminho)
+    private static int LerLimitePassos(string[] args)
+    {
+        if (args.Length == 0)
+        {
+            return LimitePassosPadrao;
+        }
+
+        int limite;
+        if (!int.TryParse(args[0], out limite) || limite <= 0)
+        {
+            Console.WriteLine(
+                $"Argumento '{args[0]}' invalido para o limite de passos; " +
+                $"usando o padrao ({LimitePassosPadrao}).\n");
+            return LimitePassosPadrao;
+        }
+
+        return limite;
+    }
+
+    private static void ReconhecerL4(string caminho, int limitePassos)
     {
         MaquinaTuring maquina = MaquinaTuringFactory.CriarMtL4();
         foreach (string linha in LerLinhas(caminho))
@@ -42,7 +65,7 @@ public static class Program
 
             Console.WriteLine($"--- Entrada: {entrada} ---");
 
-            SimuladorTuring simulador = new SimuladorTuring(maquina, limitePassos: 1_000, exibirPassos: true);
+            SimuladorTuring simulador = new SimuladorTuring(maquina, limitePassos, exibirPassos: true);
             ResultadoExecucao resultado = simulador.Executar(linha);
 
             Console.WriteLine($"Status: {Traduzir(resultado.Status)} | passos: {resultado.Passos}");
@@ -50,7 +73,7 @@ public static class Program
         }
     }
 
-    private static void ComputarIncremento(string caminho)
+    private static void ComputarIncremento(string caminho, int limitePassos)
     {
         MaquinaTuring maquina = MaquinaTuringFactory.CriarMtIncrementoUnario();
         foreach (string linha in LerLinhas(caminho))
@@ -62,7 +85,7 @@ public static class Program
 
             Console.WriteLine($"--- Entrada: {linha} (n = {linha.Length}) ---");
 
-            SimuladorTuring simulador = new SimuladorTuring(maquina, limitePassos: 1_000, exibirPassos: true);
+            SimuladorTuring simulador = new SimuladorTuring(maquina, limitePassos, exibirPassos: true);
             ResultadoExecucao resultado = simulador.Executar(linha);
 
             Console.WriteLine(
