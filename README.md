@@ -43,6 +43,21 @@ Trabalho final de **Fundamentos Teóricos da Computação (FTC)**. Implementa, e
 │   ├── Program.cs
 │   └── Parte2.csproj
 |
+├── Parte3/                          # Máquina de Turing (L4: aⁿbⁿcⁿ; f(n)=n+1 unário)
+│   ├── Models/
+│   │   ├── MaquinaTuring.cs                    # A 7-tupla da MT
+│   │   ├── TransicaoTuring.cs                  # (novoEstado, novoSímbolo, direção)
+│   │   ├── Fita.cs                             # Fita dinâmica (Dictionary<int,char>)
+│   │   └── ResultadoExecucao.cs               # Status, passos e fita final
+│   ├── Services/
+│   │   ├── MaquinaTuringFactory.cs            # Constrói a MT de L4 e a de f(n)=n+1
+│   │   └── SimuladorTuring.cs                 # Simulação passo a passo com limite
+│   ├── Dados/
+│   │   ├── entradas_mt.txt                     # Casos de L4
+│   │   └── entradas_incremento.txt            # Casos de f(n)=n+1
+│   ├── Program.cs
+│   └── Parte3.csproj
+│
 ├── docs/                            # Relatório técnico
 │   └── relatorio.pdf                # Relatório compilado (TODO A ser feito)
 │
@@ -69,6 +84,9 @@ A partir da raiz do repositório:
 # Parte 1 — Autômato Finito Determinístico (L1)
 dotnet run --project Parte1
 
+# Parte 2 — Autômato de Pilha (L2 e desafio L3)
+dotnet run --project Parte2
+
 Parte 3 — Máquina de Turing (L4 e desafio f(n) = n + 1)
 dotnet run --project Parte3
 ```
@@ -85,10 +103,10 @@ Cada projeto lê seus casos de teste de arquivos na respectiva pasta `Dados/`:
 Reconhece `L1 = { w ∈ {a,b}* | w termina com "ab" }`. Modela a 5-tupla `(Q, Σ, δ, q0, F)`, com `δ` como `Dictionary<(string,char), string>`. Exibe o diagrama de transições, simula cada cadeia mostrando o rastro de estados e ainda carrega qualquer AFD a partir de `afd.json`.
 
 ### Parte 2 - AP
-Reconhece L2 = { aⁿbⁿ | n ≥ 1 } por pilha vazia, com a pilha implementada como Stack<char> e λ-movimentos ('\0'). Exibe a configuração instantânea (estado, entrada restante, conteúdo da pilha) a cada passo. O desafio adiciona um AP não determinístico para L3 = palíndromos sobre {a,b}.
+Reconhece `L2 = { aⁿbⁿ | n ≥ 1 }` **por pilha vazia**, com a pilha implementada como `Stack<char>` e λ-movimentos (`'\0'`). Exibe a configuração instantânea (estado, entrada restante, conteúdo da pilha) a cada passo. O desafio adiciona um AP não determinístico para `L3 = palíndromos sobre {a,b}`.
 
 ### Parte 3 — Máquina de Turing
-Reconhece L4 = { aⁿbⁿcⁿ | n ≥ 1 } usando uma fita dinâmica (Dictionary<int,char>) e a estratégia de marcação X/Y/Z. Exibe estado, fita completa (com o cabeçote entre colchetes) e posição a cada passo, com contador e limite de passos. O desafio implementa uma segunda MT que computa f(n) = n + 1 em unário.
+Reconhece `L4 = { aⁿbⁿcⁿ | n ≥ 1 }` usando uma fita dinâmica (`Dictionary<int,char>`) e a estratégia de marcação `X/Y/Z`. Exibe estado, fita completa (com o cabeçote entre colchetes) e posição a cada passo, com contador e limite de passos. O desafio implementa uma segunda MT que **computa** `f(n) = n + 1` em unário.
 
 ## Vídeo de defesa
 
@@ -98,10 +116,7 @@ Link: [TODO] gravar e editar vídeo
 
 O relatório completo está em : [TODO: Fazer Relatório] 
 
-
 TODOS: 
 
 - Gravar Vídeo 
 - Fazer Relatório 
-- Implementar Automato de pilha
-- Implementar Máquina de Turing
