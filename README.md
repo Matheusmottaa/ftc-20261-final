@@ -119,12 +119,8 @@ Reconhece `L4 = { aⁿbⁿcⁿ | n ≥ 1 }` usando uma fita dinâmica (`Dictiona
 
 ## Vídeo de defesa
 
-Link: [TODO] gravar e editar vídeo
+Link: [https://www.youtube.com/watch?v=p1u8vZ6RsEk](https://www.youtube.com/watch?v=p1u8vZ6RsEk)
 
 ## Relatório técnico
 
 O relatório completo está em [`docs/relatorio.pdf`](docs/relatorio.pdf). O fonte LaTeX ([`docs/relatorio.tex`](docs/relatorio.tex)) também está versionado no repositório.
-
-TODOS:
-
-- Gravar Vídeo
