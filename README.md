@@ -59,7 +59,8 @@ Trabalho final de **Fundamentos Teóricos da Computação (FTC)**. Implementa, e
 │   └── Parte3.csproj
 │
 ├── docs/                            # Relatório técnico
-│   └── relatorio.pdf                # Relatório compilado (TODO A ser feito)
+│   ├── relatorio.tex                # Fonte LaTeX do relatório (padrão ABNT)
+│   └── relatorio.pdf                # Relatório compilado
 │
 ├── .gitignore
 └── README.md
@@ -122,9 +123,8 @@ Link: [TODO] gravar e editar vídeo
 
 ## Relatório técnico
 
-O relatório completo está em : [TODO: Fazer Relatório] 
+O relatório completo está em [`docs/relatorio.pdf`](docs/relatorio.pdf). O fonte LaTeX ([`docs/relatorio.tex`](docs/relatorio.tex)) também está versionado no repositório.
 
-TODOS: 
+TODOS:
 
-- Gravar Vídeo 
-- Fazer Relatório 
+- Gravar Vídeo
